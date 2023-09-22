@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rolex.microcservices.account.dao.AccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rolex.microservices.account.dao.entity.Account">
+        <result column="id" property="id"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_name" property="userName"/>
+        <result column="tenant_code" property="tenantCode"/>
+        <result column="type" property="type"/>
+        <result column="mail" property="mail"/>
+        <result column="phone" property="phone"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="source_user_id" property="sourceUserId"/>
+        <result column="source_tenant_id" property="sourceTenantId"/>
+    </resultMap>
+
+</mapper>

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rolex</groupId>
     <artifactId>microservices-springboot-scaffolding</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>microservices-dist</module>
+        <module>microservices-common</module>
+        <module>microservices-account-api</module>
+        <module>microservices-account-dao</module>
+        <module>microservices-account-svc</module>
+        <module>microservices-account-svc-api</module>
+    </modules>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
@@ -20,15 +27,20 @@
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <spotless.version>2.27.2</spotless.version>
         <spring-boot.version>2.7.3</spring-boot.version>
+        <spring.version>5.3.22</spring.version>
         <guava.version>31.1-jre</guava.version>
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <mybatis-plus.version>3.3.2</mybatis-plus.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <jackson.version>2.13.4</jackson.version>
-        <logback.version>1.2.11</logback.version><slf4j.version>1.7.36</slf4j.version>
-        <mysql-connector.version>8.0.33</mysql-connector.version>
+        <logback.version>1.2.11</logback.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <mysql-connector.version>8.0.22</mysql-connector.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <oshi-core.version>6.1.1</oshi-core.version>
         <hibernate-validator.version>6.2.2.Final</hibernate-validator.version>
+        <lombok.version>1.18.20</lombok.version>
+        <junit.version>5.8.2</junit.version>
+        <mockito.version>4.5.1</mockito.version>
     </properties>
 
     <dependencyManagement>
@@ -39,6 +51,26 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             <!-- mybatis -->
             <dependency>
@@ -138,6 +170,30 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -177,10 +233,6 @@
         </pluginManagement>
 
         <plugins>
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -312,4 +364,38 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <!-- 发布到 快照版本的仓库，即 测试版本仓库 -->
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <!--不同环境的唯一id-->
+            <id>dev</id>
+            <activation>
+                <!--默认激活开发环境-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--profile.active对应application.yml中的@profile.active@-->
+                <profile.active>dev</profile.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <!-- 用来区分不同环境变量，可以用来打包-->
+                <profile.active>test</profile.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <!-- 用来区分不同环境变量，可以用来打包-->
+                <profile.active>prod</profile.active>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>
