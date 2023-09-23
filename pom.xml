@@ -10,10 +10,7 @@
     <modules>
         <module>microservices-dist</module>
         <module>microservices-common</module>
-        <module>microservices-account-api</module>
-        <module>microservices-account-dao</module>
-        <module>microservices-account-svc</module>
-        <module>microservices-account-svc-api</module>
+        <module>microservices-account</module>
     </modules>
 
     <properties>
@@ -218,11 +215,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>${maven-dependency-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>${maven-shade-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

@@ -6,9 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Result Code Enum
- *
- * @author william
+ * @author rolex
+ * @since 2023/9/23
  */
 @Getter
 @AllArgsConstructor
