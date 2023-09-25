@@ -17,3 +17,4 @@ mvn clean spotless:apply
 ```
 mvn clean install
 ```
+在microservices-jacoco-coverage/target/site/jacoco-aggregate/index.html查看合并的报告。
